@@ -113,12 +113,11 @@ async function main() {
   // --- comments collection ---
   if (!colExists("comments")) {
     console.log("  Creating 'comments' collection...");
-    const storiesId = getColId("stories");
     const payload: any = {
       name: "comments",
       type: "base",
       fields: [
-        { type: "relation", name: "story_id", required: true, maxSelect: 1, collectionId: storiesId },
+        { type: "relation", name: "story_id", required: true, maxSelect: 1, collectionId: "stories" },
         { type: "relation", name: "user_id", required: true, maxSelect: 1, collectionId: "_pb_users_auth_" },
         { type: "select", name: "stance", required: true, maxSelect: 1, values: ["for", "against", "neutral"] },
         { type: "text", name: "content", required: true },
