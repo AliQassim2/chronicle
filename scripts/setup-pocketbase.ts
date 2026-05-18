@@ -190,5 +190,8 @@ async function main() {
 
 main().catch((err) => {
   console.error("✗ Setup failed:", err instanceof Error ? err.message : err);
+  if (typeof err === "object" && err !== null) {
+    try { console.error("Details:", JSON.stringify(err)); } catch { console.error("Raw:", err); }
+  }
   process.exit(1);
 });
