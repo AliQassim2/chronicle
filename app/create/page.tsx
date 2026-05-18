@@ -108,38 +108,38 @@ export default function CreateStoryPage() {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-zinc-700">Links</label>
-          <div className="mt-1 space-y-2">
-            {links.map((link, i) => (
-              <div key={i} className="flex gap-2">
-                <input
-                  type="url"
-                  value={link}
-                  onChange={(e) => updateLink(i, e.target.value)}
-                  placeholder="https://..."
-                  className="block flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
-                />
-                {links.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeLink(i)}
-                    className="rounded-md border border-zinc-300 px-2 text-sm text-zinc-500 hover:bg-zinc-50"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            ))}
+          <div>
+            <label className="block text-sm font-medium text-zinc-700">Sources</label>
+            <div className="mt-1 space-y-2">
+              {links.map((link, i) => (
+                <div key={i} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={link}
+                    onChange={(e) => updateLink(i, e.target.value)}
+                    placeholder="Source text or URL..."
+                    className="block flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                  />
+                  {links.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeLink(i)}
+                      className="rounded-md border border-zinc-300 px-2 text-sm text-zinc-500 hover:bg-zinc-50"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={addLink}
+              className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-800"
+            >
+              + Add source
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={addLink}
-            className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-800"
-          >
-            + Add link
-          </button>
-        </div>
 
         <div>
           <label htmlFor="images" className="block text-sm font-medium text-zinc-700">

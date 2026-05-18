@@ -22,19 +22,23 @@ export default function SourcesBlock({
       {links && links.length > 0 && (
         <div>
           <h3 className="mb-2 text-sm font-semibold text-zinc-500 uppercase tracking-wide">
-            Links
+            Sources
           </h3>
           <ul className="space-y-1">
-            {links.map((url, i) => (
+            {links.map((text, i) => (
               <li key={i}>
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-blue-600 hover:text-blue-800 hover:underline break-all"
-                >
-                  {url}
-                </a>
+                {text.startsWith("http://") || text.startsWith("https://") ? (
+                  <a
+                    href={text}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline break-all"
+                  >
+                    {text}
+                  </a>
+                ) : (
+                  <span className="text-sm text-zinc-700">{text}</span>
+                )}
               </li>
             ))}
           </ul>
