@@ -10,16 +10,17 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const pbAuth = request.cookies.get("pb_auth")?.value;
+  const raw = request.cookies.get("pb_auth")?.value;
 
-  if (!pbAuth) {
+  if (!raw) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   try {
-    const parsed = JSON.parse(pbAuth);
+    const decoded = decodeURIComponent(raw);
+    const parsed = JSON.parse(decoded);
     if (!parsed.token) {
       const loginUrl = new URL("/login", request.url);
       return NextResponse.redirect(loginUrl);

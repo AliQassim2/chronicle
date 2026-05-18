@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createServerPB } from "@/lib/server-pb";
 import { formatDate } from "@/lib/utils";
 import SourcesBlock from "@/components/SourcesBlock";
@@ -34,8 +34,11 @@ export default async function StoryPage({
     story = (await pb.collection("stories").getOne(id, {
       expand: "user_id",
     })) as unknown as StoryData;
-  } catch {
-    notFound();
+  } catch (err: unknown) {
+    if (err && typeof err === "object" && "status" in err && err.status === 404) {
+      notFound();
+    }
+    redirect("/login?redirect=/story/" + id);
   }
 
   return (
