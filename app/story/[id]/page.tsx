@@ -15,6 +15,7 @@ interface StoryData {
   videos?: string[] | null;
   expand?: {
     user_id?: {
+      name?: string;
       username?: string;
     };
   };
@@ -51,7 +52,7 @@ export default async function StoryPage({
           <span>
             Published by{" "}
             <strong className="text-zinc-700">
-              {story.expand?.user_id?.username ?? "Unknown"}
+              {story.expand?.user_id?.name ?? story.expand?.user_id?.username ?? "Unknown"}
             </strong>
           </span>
           <span className="text-zinc-300">·</span>

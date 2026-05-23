@@ -8,8 +8,8 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
+  register: (username: string, name: string, password: string) => Promise<void>;
   logout: () => void;
   refreshAuth: () => Promise<void>;
   clearError: () => void;
@@ -21,10 +21,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
   error: null,
 
-  login: async (email: string, password: string) => {
+  login: async (username: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const authData = await pb.collection("users").authWithPassword(email, password);
+      const authData = await pb.collection("users").authWithPassword(username, password);
       const record = authData.record as Record<string, unknown>;
       if (!record.approved) {
         pb.authStore.clear();
@@ -45,10 +45,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  register: async (username: string, email: string, password: string) => {
+  register: async (username: string, name: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      await pb.collection("users").create({ username, email, password, passwordConfirm: password });
+      await pb.collection("users").create({ username, name, password, passwordConfirm: password });
       set({ isLoading: false });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Registration failed";

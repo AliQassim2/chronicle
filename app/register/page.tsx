@@ -8,7 +8,7 @@ export default function RegisterPage() {
   const { register, isLoading, error, clearError } = useAuthStore();
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
@@ -30,7 +30,7 @@ export default function RegisterPage() {
     }
 
     try {
-      await register(username, email, password);
+      await register(username, name, password);
       setRegistered(true);
     } catch {
       // error is set in the store
@@ -79,15 +79,15 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-zinc-700">
-            Email
+          <label htmlFor="name" className="block text-sm font-medium text-zinc-700">
+            Display Name
           </label>
           <input
-            id="email"
-            type="email"
+            id="name"
+            type="text"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
           />
         </div>

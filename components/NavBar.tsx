@@ -21,7 +21,7 @@ export default function NavBar() {
               New Story
             </Link>
             <span className="text-sm text-zinc-500">
-              {typeof user?.username === "string" ? user.username : ""}
+              {typeof user?.name === "string" ? user.name : typeof user?.username === "string" ? user.username : ""}
             </span>
             <button
               onClick={logout}

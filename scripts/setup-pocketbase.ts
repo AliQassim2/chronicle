@@ -81,6 +81,14 @@ async function main() {
       await pb.collections.update(usersCol.id, { fields: updatedFields });
       console.log("  ✓ approved field added to users");
     }
+
+    const hasName = usersCol.fields?.some((f: any) => f.name === "name");
+    if (!hasName) {
+      console.log("  Adding 'name' field to users...");
+      const updatedFields = [...(usersCol.fields || []), { type: "text", name: "name", required: false, min: 0, max: 255 }];
+      await pb.collections.update(usersCol.id, { fields: updatedFields });
+      console.log("  ✓ name field added to users");
+    }
   }
 
   // --- stories collection ---

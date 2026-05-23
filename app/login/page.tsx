@@ -10,14 +10,14 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const { login, isLoading, error, clearError } = useAuthStore();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     clearError();
     try {
-      await login(email, password);
+      await login(username, password);
       const redirect = searchParams.get("redirect") || "/";
       window.location.href = redirect;
     } catch {
@@ -31,15 +31,15 @@ function LoginForm() {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-zinc-700">
-            Email
+          <label htmlFor="username" className="block text-sm font-medium text-zinc-700">
+            Username
           </label>
           <input
-            id="email"
-            type="email"
+            id="username"
+            type="text"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
           />
         </div>
