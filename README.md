@@ -21,9 +21,9 @@ Share and discuss stories. A full-stack web app built with **Next.js 16** (App R
 ### `users` (auth collection)
 | Field      | Type     | Notes                              |
 |------------|----------|------------------------------------|
-| email      | email    | Login identity                     |
+| username   | text     | Unique login identity              |
+| name       | text     | Display name (not unique)          |
 | password   | password | Hashed automatically               |
-| username   | text     | Display name                       |
 | avatar     | file     | Profile picture                    |
 | approved   | bool     | Admin must approve new accounts    |
 
@@ -136,9 +136,10 @@ Opens at `http://localhost:3000`.
 ```
 chronicle/
 ├── proxy.ts                    # Route protection (Next.js 16 proxy)
-├── pocketbase.exe              # PocketBase server binary
-├── pb_data/                    # PocketBase database
-├── .env.local                  # Environment config
+├── pocketbase.exe              # 🔒 Gitignored — download your own
+├── pb_data/                    # 🔒 Gitignored — local DB (SQLite)
+├── pb_migrations/              # ✅ Committed — share schema changes
+├── .env.local                  # 🔒 Gitignored — local config
 ├── app/
 │   ├── page.tsx                # Home (StoryFeed)
 │   ├── login/page.tsx          # Sign in
@@ -152,7 +153,7 @@ chronicle/
 │   ├── StoryList.tsx           # Filter + grid
 │   ├── StoryCard.tsx           # Story card
 │   ├── FilterBar.tsx           # Publisher/author/sort
-│   ├── SourcesBlock.tsx        # Links, images, videos
+│   ├── SourcesBlock.tsx        # Sources, links, images, videos
 │   ├── CommentSection.tsx      # Comments + image upload
 │   └── EmptyState.tsx          # Reusable empty state
 ├── lib/
@@ -163,6 +164,8 @@ chronicle/
 └── store/
     └── auth.ts                 # Zustand auth state
 ```
+
+> **Note:** `pocketbase.exe` and `pb_data/` are in `.gitignore` — each developer must download PocketBase and run it locally. Only `pb_migrations/` (auto-generated migration files) are committed to share schema changes with the team.
 
 ---
 
