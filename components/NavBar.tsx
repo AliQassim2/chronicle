@@ -6,6 +6,11 @@ import { useAuthStore } from "@/store/auth";
 export default function NavBar() {
   const { isAuthenticated, user, logout } = useAuthStore();
 
+  function handleLogout() {
+    logout();
+    window.location.href = "/login";
+  }
+
   return (
     <nav className="border-b border-zinc-200 bg-white">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
@@ -24,7 +29,7 @@ export default function NavBar() {
               {typeof user?.name === "string" ? user.name : typeof user?.username === "string" ? user.username : ""}
             </span>
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="text-sm text-zinc-500 hover:text-zinc-900"
             >
               Logout
