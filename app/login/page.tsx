@@ -2,12 +2,11 @@
 
 import { Suspense } from "react";
 import { useState, FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { login, isLoading, error, clearError } = useAuthStore();
 
@@ -20,7 +19,7 @@ function LoginForm() {
     try {
       await login(email, password);
       const redirect = searchParams.get("redirect") || "/";
-      router.push(redirect);
+      window.location.href = redirect;
     } catch {
       // error is set in the store
     }
