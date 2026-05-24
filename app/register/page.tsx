@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+ 
   const [localError, setLocalError] = useState<string | null>(null);
   const [registered, setRegistered] = useState(false);
 
@@ -19,15 +19,7 @@ export default function RegisterPage() {
     clearError();
     setLocalError(null);
 
-    if (password !== confirm) {
-      setLocalError("Passwords do not match");
-      return;
-    }
-
-    if (password.length < 8) {
-      setLocalError("Password must be at least 8 characters");
-      return;
-    }
+  
 
     try {
       await register(username, name, password);
@@ -64,6 +56,19 @@ export default function RegisterPage() {
       <h1 className="text-2xl font-bold text-zinc-900 text-center">Create an account</h1>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+           <div>
+          <label htmlFor="name" className="block text-sm font-medium text-zinc-700">
+            Display Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+          />
+        </div>
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-zinc-700">
             Username
@@ -78,19 +83,7 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-zinc-700">
-            Display Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
-          />
-        </div>
+     
 
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-zinc-700">
@@ -100,27 +93,14 @@ export default function RegisterPage() {
             id="password"
             type="password"
             required
-            minLength={8}
+            
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
           />
         </div>
 
-        <div>
-          <label htmlFor="confirm" className="block text-sm font-medium text-zinc-700">
-            Confirm Password
-          </label>
-          <input
-            id="confirm"
-            type="password"
-            required
-            minLength={8}
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
-          />
-        </div>
+      
 
         {displayError && <p className="text-sm text-red-600">{displayError}</p>}
 

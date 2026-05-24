@@ -11,6 +11,7 @@ interface Story {
   created: string;
   expand?: {
     user_id?: {
+      name?: string;
       username?: string;
     };
   };

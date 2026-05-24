@@ -8,6 +8,7 @@ interface Story {
   created: string;
   expand?: {
     user_id?: {
+      name?: string;
       username?: string;
     };
   };
@@ -23,7 +24,7 @@ export default function StoryCard({ story }: { story: Story }) {
         {story.title}
       </h2>
       <div className="mt-3 flex items-center gap-2 text-sm text-zinc-500">
-        <span>{story.expand?.user_id?.username ?? "Unknown"}</span>
+        <span>{story.expand?.user_id?.name ?? story.expand?.user_id?.username ?? "Unknown"}</span>
         <span className="text-zinc-300">·</span>
         <span>{story.original_author}</span>
       </div>

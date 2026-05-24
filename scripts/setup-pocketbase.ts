@@ -111,11 +111,28 @@ async function main() {
       listRule: "@request.auth.id != ''",
       viewRule: "@request.auth.id != ''",
       createRule: "@request.auth.id != ''",
+      updateRule: "@request.auth.id != '' && user_id = @request.auth.id",
     };
     await pb.collections.create(payload);
     console.log("  ✓ stories collection created");
   } else {
     console.log("  ✓ stories collection already exists");
+    // Ensure update rule is set
+    const storiesCol = existing.find((c: any) => c.name === "stories");
+    if (storiesCol && !storiesCol.updateRule) {
+      console.log("  Adding updateRule to stories...");
+      await pb.collections.update(storiesCol.id, {
+        updateRule: "@request.auth.id != '' && user_id = @request.auth.id",
+      });
+      console.log("  ✓ updateRule added to stories");
+    }
+    if (storiesCol && !storiesCol.deleteRule) {
+      console.log("  Adding deleteRule to stories...");
+      await pb.collections.update(storiesCol.id, {
+        deleteRule: "@request.auth.id != '' && user_id = @request.auth.id",
+      });
+      console.log("  ✓ deleteRule added to stories");
+    }
   }
 
   // --- comments collection ---

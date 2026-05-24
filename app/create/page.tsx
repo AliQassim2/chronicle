@@ -3,6 +3,8 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import pb from "@/lib/pocketbase";
+import AiChat from "@/components/AiChat";
+import RichEditor from "@/components/RichEditor";
 
 export default function CreateStoryPage() {
   const router = useRouter();
@@ -98,14 +100,9 @@ export default function CreateStoryPage() {
           <label htmlFor="content" className="block text-sm font-medium text-zinc-700">
             Content
           </label>
-          <textarea
-            id="content"
-            required
-            rows={8}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-y"
-          />
+          <div className="mt-1">
+            <RichEditor value={content} onChange={setContent} />
+          </div>
         </div>
 
           <div>
@@ -179,6 +176,11 @@ export default function CreateStoryPage() {
           {submitting ? "Publishing..." : "Publish Story"}
         </button>
       </form>
+
+      <AiChat
+        onInsertTitle={(text) => setTitle(text.split("\n")[0].slice(0, 500))}
+        onInsertContent={(text) => setContent(text)}
+      />
     </div>
   );
 }

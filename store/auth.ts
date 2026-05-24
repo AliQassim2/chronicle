@@ -8,7 +8,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (identity: string, password: string) => Promise<void>;
   register: (username: string, name: string, password: string) => Promise<void>;
   logout: () => void;
   refreshAuth: () => Promise<void>;
@@ -21,10 +21,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
   error: null,
 
-  login: async (username: string, password: string) => {
+  login: async (identity: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const authData = await pb.collection("users").authWithPassword(username, password);
+      const authData = await pb.collection("users").authWithPassword(identity, password);
       const record = authData.record as Record<string, unknown>;
       if (!record.approved) {
         pb.authStore.clear();
@@ -38,9 +38,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed";
-      if (message !== "not approved") {
-        set({ error: message, isLoading: false });
-      }
+      if (message === "not approved") throw err;
+      set({ error: "Invalid username or password.", isLoading: false });
       throw err;
     }
   },
@@ -51,8 +50,17 @@ export const useAuthStore = create<AuthState>((set) => ({
       await pb.collection("users").create({ username, name, password, passwordConfirm: password });
       set({ isLoading: false });
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Registration failed";
-      set({ error: message, isLoading: false });
+      let friendly = "Registration failed. Please check your details.";
+      if (err && typeof err === "object" && "data" in err) {
+        console.log("Registration error data:", (err as any).data);
+        const data = (err as any).data;
+        if (data?.data?.username?.code === "validation_not_unique") {
+          friendly = "Username already taken.";
+        } else if (data?.data?.username) {
+          friendly = "Username is invalid or already taken.";
+        }
+      }
+      set({ error: friendly, isLoading: false });
       throw err;
     }
   },
